@@ -1,3 +1,4 @@
+
 import de.bezier.guido.*;
 public final static int NUM_ROWS = 5;
 public final static int NUM_COLS = 5;
@@ -104,17 +105,43 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
+        if(mines.contains(this)){
+            displayLosingMessage();
+          }else if(countMines(myRow,myCol) > 0){
+            buttons[myRow][myCol].setLabel(countMines(myRow,myCol));
+          }else{
+            if(isValid(myRow - 1, myCol))
+              if(!buttons[myRow - 1][myCol].isClicked())
+                buttons[myRow - 1][myCol].mousePressed();
+            if(isValid(myRow - 1, myCol + 1))
+              if(!buttons[myRow - 1][myCol + 1].isClicked())
+                buttons[myRow - 1][myCol + 1].mousePressed();
+            if(isValid(myRow - 1, myCol - 1))
+              if(!buttons[myRow - 1][myCol - 1].isClicked())
+                buttons[myRow - 1][myCol - 1].mousePressed();
+            if(isValid(myRow, myCol + 1))
+              if(!buttons[myRow][myCol + 1].isClicked())
+                buttons[myRow][myCol + 1].mousePressed();
+            if(isValid(myRow, myCol - 1))
+              if(!buttons[myRow][myCol - 1].isClicked())
+                buttons[myRow][myCol - 1].mousePressed();
+            if(isValid(myRow + 1, myCol))
+              if(!buttons[myRow + 1][myCol].isClicked())
+                buttons[myRow + 1][myCol].mousePressed();
+            if(isValid(myRow + 1, myCol + 1))
+              if(!buttons[myRow + 1][myCol + 1].isClicked())
+                buttons[myRow + 1][myCol + 1].mousePressed();
+            if(isValid(myRow + 1, myCol - 1))
+              if(!buttons[myRow + 1][myCol - 1].isClicked())
+                buttons[myRow + 1][myCol - 1].mousePressed();
+          }
         if(mouseButton == RIGHT){
           if(flagged == true){
             clicked = false;
             flagged = false; 
           }else if(flagged == false){
             flagged = true;
-          }else if(mines.contains(this)){
-            displayLosingMessage();
-          }else if(countMines(myRow,myCol) > 0){
-            buttons[myRow][myCol].setLabel(countMines(myRow,myCol));
-          } 
+          }
       }
     }
     public void draw () 
@@ -144,4 +171,8 @@ public class MSButton
     {
         return flagged;
     }
+    public boolean isClicked(){
+      return clicked;
+    }
 }
+

@@ -56,6 +56,14 @@ public boolean isWon()
 public void displayLosingMessage()
 {
   noLoop();
+  
+  for(int i = 0; i < buttons.length; i++){
+    for(int j = 0; j < buttons[i].length; j++){
+      if(mines.contains(buttons[i][j])){
+        buttons[i][j].setClicked(true);
+      }
+    }
+  }
         buttons[10][6].setLabel("y");
         buttons[10][7].setLabel("o");
         buttons[10][8].setLabel("u");
@@ -110,7 +118,7 @@ public class MSButton
     private float x,y, width, height;
     private boolean clicked, flagged;
     private String myLabel;
-    
+    public void setClicked(boolean n){clicked = n;}
     public MSButton ( int row, int col )
     {
         width = 400/NUM_COLS;
@@ -127,6 +135,15 @@ public class MSButton
     // called by manager
     public void mousePressed () 
     {
+        if(mouseButton == RIGHT){
+          if(flagged == true){
+            clicked = false;
+            flagged = false; 
+          }else if(flagged == false){
+            flagged = true;
+          }
+      }
+      if(mouseButton == LEFT){
         clicked = true;
         if(mines.contains(this)){
             displayLosingMessage();
@@ -157,13 +174,6 @@ public class MSButton
             if(isValid(myRow + 1, myCol - 1))
               if(!buttons[myRow + 1][myCol - 1].isClicked())
                 buttons[myRow + 1][myCol - 1].mousePressed();
-          }
-        if(mouseButton == RIGHT){
-          if(flagged == true){
-            clicked = false;
-            flagged = false; 
-          }else if(flagged == false){
-            flagged = true;
           }
       }
     }

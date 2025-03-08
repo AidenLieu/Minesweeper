@@ -1,7 +1,8 @@
 
+
 import de.bezier.guido.*;
-public final static int NUM_ROWS = 5;
-public final static int NUM_COLS = 5;
+public final static int NUM_ROWS = 20;
+public final static int NUM_COLS = 20;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList<MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 
@@ -25,12 +26,11 @@ void setup ()
 }
 public void setMines()
 {
-  for(int i = 0; i < 4; i++){
+  for(int i = 0; i < 20; i++){
     int r = (int)(Math.random() * NUM_ROWS);
     int c = (int)(Math.random() * NUM_COLS);
     if(!mines.contains(buttons[r][c])){
       mines.add(buttons[r][c]);
-      System.out.println(r + "" + c);
     }else{i--;}
   }
 }
@@ -43,16 +43,39 @@ public void draw ()
 }
 public boolean isWon()
 {
-    //your code here
-    return false;
+    for(int r=0;r<NUM_ROWS;r++)
+        for(int c=0;c<NUM_COLS;c++)
+        {
+            if(mines.contains(buttons[r][c])&&buttons[r][c].isFlagged()==false)
+                return false;
+            if(mines.contains(buttons[r][c])==false&&buttons[r][c].isFlagged())
+                return false;
+        }
+    return true;
 }
 public void displayLosingMessage()
 {
-    //your code here
+  noLoop();
+        buttons[10][6].setLabel("y");
+        buttons[10][7].setLabel("o");
+        buttons[10][8].setLabel("u");
+        buttons[10][9].setLabel("");
+        buttons[10][10].setLabel("l");
+        buttons[10][11].setLabel("o");
+        buttons[10][12].setLabel("s");
+        buttons[10][13].setLabel("e");
 }
 public void displayWinningMessage()
 {
-    //your code here
+    if(isWon()==true)
+    {
+        buttons[10][9].setLabel("y");
+        buttons[10][10].setLabel("o");
+        buttons[10][11].setLabel("u");
+        buttons[11][9].setLabel("w");
+        buttons[11][10].setLabel("i");
+        buttons[11][11].setLabel("n");
+    }
 }
 public boolean isValid(int r, int c)
 {
@@ -175,4 +198,3 @@ public class MSButton
       return clicked;
     }
 }
-
